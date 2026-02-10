@@ -1,16 +1,55 @@
-# React + Vite
+# Supabase CRUD Auth (Todo Dashboard)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple React + Vite app using Supabase for email/password auth and a basic todo CRUD list inside the dashboard.
 
-Currently, two official plugins are available:
+![Dashboard](src/imgs/todoapp.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## React Compiler
+- Supabase authentication (sign up, sign in, sign out)
+- Protected dashboard route
+- Todo CRUD (create, read, update, delete) scoped to the signed-in user
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+- React
+- Vite
+- Supabase
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Getting Started
+
+1) Install dependencies
+
+```
+npm install
+```
+
+2) Create a Supabase project and add a `todos` table with RLS enabled.
+
+Suggested schema:
+
+- `id` uuid (primary key, default `gen_random_uuid()`)
+- `user_id` uuid (references `auth.users`)
+- `title` text
+- `is_complete` boolean (default `false`)
+- `created_at` timestamptz (default `now()`)
+
+3) Add environment variables
+
+Create a `.env` file in the project root:
+
+```
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+
+4) Run the app
+
+```
+npm run dev
+```
+
+## Notes
+
+- Todos are filtered by the current user via `user_id`.
+- If you change the schema, update the Supabase queries in the dashboard.
